@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\StockItemRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StockItemRepository::class)]
@@ -11,33 +10,63 @@ class StockItem
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
+
+    #[ORM\Column(length: 128)]
+    private ?string $externalId = null;
+
+    #[ORM\Column(length: 128)]
+    private ?string $mpn = null;
+
+    #[ORM\Column(length: 128)]
+    private ?string $producerName = null;
 
     #[ORM\Column(length: 32, nullable: true)]
     private ?string $ean = null;
 
-    #[ORM\Column(length: 128)]
-    private ?string $producer_code = null;
-
-    #[ORM\Column(length: 128)]
-    private ?string $our_code = null;
-
-    #[ORM\Column]
-    private ?int $quantity = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 12, scale: 2)]
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private ?string $price = null;
 
-    #[ORM\Column(length: 128)]
-    private ?string $producer = null;
-
-    #[ORM\Column(length: 128, nullable: true)]
-    private ?string $name = null;
+    #[ORM\Column(type: 'integer')]
+    private ?int $quantity = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getExternalId(): ?string
+    {
+        return $this->externalId;
+    }
+
+    public function setExternalId(string $externalId): static
+    {
+        $this->externalId = $externalId;
+        return $this;
+    }
+
+    public function getMpn(): ?string
+    {
+        return $this->mpn;
+    }
+
+    public function setMpn(string $mpn): static
+    {
+        $this->mpn = $mpn;
+        return $this;
+    }
+
+    public function getProducerName(): ?string
+    {
+        return $this->producerName;
+    }
+
+    public function setProducerName(string $producerName): static
+    {
+        $this->producerName = $producerName;
+        return $this;
     }
 
     public function getEan(): ?string
@@ -48,43 +77,6 @@ class StockItem
     public function setEan(?string $ean): static
     {
         $this->ean = $ean;
-
-        return $this;
-    }
-
-    public function getProducerCode(): ?string
-    {
-        return $this->producer_code;
-    }
-
-    public function setProducerCode(string $producer_code): static
-    {
-        $this->producer_code = $producer_code;
-
-        return $this;
-    }
-
-    public function getOurCode(): ?string
-    {
-        return $this->our_code;
-    }
-
-    public function setOurCode(string $our_code): static
-    {
-        $this->our_code = $our_code;
-
-        return $this;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): static
-    {
-        $this->quantity = $quantity;
-
         return $this;
     }
 
@@ -96,31 +88,17 @@ class StockItem
     public function setPrice(string $price): static
     {
         $this->price = $price;
-
         return $this;
     }
 
-    public function getProducer(): ?string
+    public function getQuantity(): ?int
     {
-        return $this->producer;
+        return $this->quantity;
     }
 
-    public function setProducer(string $producer): static
+    public function setQuantity(int $quantity): static
     {
-        $this->producer = $producer;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): static
-    {
-        $this->name = $name;
-
+        $this->quantity = $quantity;
         return $this;
     }
 }
