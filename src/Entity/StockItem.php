@@ -25,10 +25,10 @@ class StockItem
     #[ORM\Column(length: 32, nullable: true)]
     private ?string $ean = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private ?string $price = null;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $quantity = null;
 
     public function getId(): ?int
@@ -41,7 +41,7 @@ class StockItem
         return $this->externalId;
     }
 
-    public function setExternalId(string $externalId): static
+    public function setExternalId(?string $externalId): static
     {
         $this->externalId = $externalId;
         return $this;
@@ -52,7 +52,7 @@ class StockItem
         return $this->mpn;
     }
 
-    public function setMpn(string $mpn): static
+    public function setMpn(?string $mpn): static
     {
         $this->mpn = $mpn;
         return $this;
@@ -63,7 +63,7 @@ class StockItem
         return $this->producerName;
     }
 
-    public function setProducerName(string $producerName): static
+    public function setProducerName(?string $producerName): static
     {
         $this->producerName = $producerName;
         return $this;
@@ -80,14 +80,14 @@ class StockItem
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): ?float
     {
-        return $this->price;
+        return $this->price !== null ? (float)$this->price : null;
     }
 
-    public function setPrice(string $price): static
+    public function setPrice(?float $price): static
     {
-        $this->price = $price;
+        $this->price = $price !== null ? number_format($price, 2, '.', '') : null;
         return $this;
     }
 
@@ -96,7 +96,7 @@ class StockItem
         return $this->quantity;
     }
 
-    public function setQuantity(int $quantity): static
+    public function setQuantity(?int $quantity): static
     {
         $this->quantity = $quantity;
         return $this;
