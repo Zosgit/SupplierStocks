@@ -30,15 +30,6 @@ final class StockController extends AbstractController
         $ean = $request->query->get('ean');
         $mpn = $request->query->get('mpn');
 
-        // Build search criteria based on parameters
-        $criteria = [];
-        if (!empty($ean)) {
-            $criteria['ean'] = $ean;
-        }
-        if (!empty($mpn)) {
-            $criteria['mpn'] = $mpn;
-        }
-
         // If neither parameter is provided, return a 400 error
         if (empty($ean) && empty($mpn)) {
             return $this->json([
@@ -46,11 +37,25 @@ final class StockController extends AbstractController
             ], 400);
         }
 
-        // Query the database using Doctrine repository
-        $repo = $em->getRepository(StockItem::class);
-        $items = !empty($criteria)
-            ? $repo->findBy($criteria, ['id' => 'ASC'])
-            : $repo->findBy([], ['id' => 'ASC']);
+        // Build search query based on given parameters (one or both)
+        $qb = $em->createQueryBuilder();
+        $qb->select('s')
+           ->from(StockItem::class, 's');
+
+        if (!empty($ean) && !empty($mpn)) {
+            $qb->where('s.ean = :ean OR s.mpn = :mpn')
+               ->setParameter('ean', $ean)
+               ->setParameter('mpn', $mpn);
+        } elseif (!empty($ean)) {
+            $qb->where('s.ean = :ean')
+               ->setParameter('ean', $ean);
+        } elseif (!empty($mpn)) {
+            $qb->where('s.mpn = :mpn')
+               ->setParameter('mpn', $mpn);
+        }
+
+        $qb->orderBy('s.id', 'ASC');
+        $items = $qb->getQuery()->getResult();
 
         // Prepare formatted array for JSON output
         $data = [];
