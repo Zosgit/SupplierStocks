@@ -4,9 +4,9 @@ services:
   app:
     image: webdevops/php-nginx-dev:8.2
     container_name: symfony-app
-    working_dir: /app/symfony
+    working_dir: /app
     environment:
-      - WEB_DOCUMENT_ROOT=/app/symfony/public
+      - WEB_DOCUMENT_ROOT=/app/public
       - PHP_DATE_TIMEZONE=Europe/Warsaw
       - COMPOSER_ALLOW_SUPERUSER=1
     volumes:

@@ -26,14 +26,14 @@ The project runs in a Docker-based environment and includes unit and functional 
     docker-compose up -d
 3. Install dependencies
     ```bash
-    docker-compose exec php composer install
+    docker-compose exec app composer install
 4. Run database migrations
     ```bash
-    docker-compose exec php php bin/console doctrine:migrations:migrate
+    docker-compose exec app php bin/console doctrine:migrations:migrate
 5. Import supplier CSV data
     ```bash
-    docker-compose exec php php bin/console app:import:stock /app/symfony/data/lorotom.csv Lorotom
-    docker-compose exec php php bin/console app:import:stock /app/symfony/data/trah.csv Trah
+    docker-compose exec app php bin/console app:import:stock /app/symfony/data/lorotom.csv Lorotom
+    docker-compose exec app php bin/console app:import:stock /app/symfony/data/trah.csv Trah
 6. Access the API
 
     You can test the API after importing data:
@@ -55,4 +55,4 @@ The project runs in a Docker-based environment and includes unit and functional 
     http://localhost:8080/get-stocks
 7. Run tests
     ```bash
-    docker-compose exec php php bin/phpunit --testdox
+    docker-compose exec app php bin/phpunit --testdox
