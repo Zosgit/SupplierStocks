@@ -19,8 +19,8 @@ The project runs in a Docker-based environment and includes unit and functional 
 
 1. Clone the repository
     ```bash
-   git clone https://github.com/<your-username>/supplier-stock-processing.git
-   cd supplier-stock-processing
+   git clone "https://github.com/Zosgit/SupplierStocks.git"
+   cd SupplierStocks
 2. Build and start containers
     ```bash
     docker-compose up -d
